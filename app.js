@@ -4,5 +4,5 @@ import cors from 'cors';
 
 export const app = express();
 
-app.use("/api/", routes);
 app.use(cors());
+app.use("/api/", routes);
