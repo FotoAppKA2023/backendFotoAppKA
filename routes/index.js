@@ -8,7 +8,7 @@ import { scanersRoutes } from "./scaners.routes.js";
 
 export const routes = () => {
   //ruta de saludo...
-  routes.get("/", (req, res) => {
+  app.use("/", (req, res) => {
     res.json("Welcome to Backend FotoAppKodemia KA:..");
   });
 
