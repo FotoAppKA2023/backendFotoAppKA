@@ -7,10 +7,7 @@ import { rollosRoutes } from "./rollos.routes.js";
 import { scanersRoutes } from "./scaners.routes.js";
 
 export const routes = () => {
-  //ruta de saludo...
-  app.use("/", (req, res) => {
-    res.json("Welcome to Backend FotoAppKodemia KA:..");
-  });
+  
 
   app.use("/api/photoUser", photoUserRoutes);
   app.use("/api/albums", albumRoutes);
@@ -18,4 +15,8 @@ export const routes = () => {
   app.use("/api/rollos", rollosRoutes);
   app.use("/api/camaras", camarasRoutes);
   app.use("/api/scaners", scanersRoutes);
+  //ruta de saludo...
+  app.use("/", (req, res) => {
+    res.json("Welcome to Backend FotoAppKodemia KA:..");
+  });
 };
