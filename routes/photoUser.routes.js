@@ -1,8 +1,11 @@
 import {Router} from "express";
-import { createUser, getIndex } from "../controllers/photoUser.controller.js";
+import { createPhotoUser, getIndex, getOnePhotoUser,updatePhotoUser, deletePhotoUser } from "../controllers/photoUser.controller.js";
 
 
 
 export const photoUserRoutes= Router()
                         .get('/',getIndex)
-                        .post('/',createUser)
+                        .post('/',createPhotoUser)
+                        .get('/:id',getOnePhotoUser)
+                        .put('/:id',updatePhotoUser)
+                        .delete('/:id',deletePhotoUser)
