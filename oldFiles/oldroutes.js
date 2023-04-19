@@ -6,3 +6,13 @@ export const routes = Router();
 routes.get("/", (req, res) => {
     res.json("Welcome to Backend FotoAppKodemia KA:..");
   });
+
+
+//rutas de entidad photoUser
+
+
+
+//rutas de entidad album
+
+//rutas de entidad adminUser
+
