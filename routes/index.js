@@ -15,6 +15,7 @@ export const routes = () => {
   app.use("/api/rollos", rollosRoutes);
   app.use("/api/camaras", camarasRoutes);
   app.use("/api/scaners", scanersRoutes);
+  
   //ruta de saludo...
   app.use("/", (req, res) => {
     res.json("Welcome to Backend FotoAppKodemia KA:..");
