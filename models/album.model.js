@@ -1,30 +1,42 @@
 import mongoose from "mongoose";
 
 const albumSchema= new mongoose.Schema({
-  nombre:{
+  urlImages:{
+    type: Array
+  },
+  description:{
     type: String,
     trim: true
   },
-  apellido:{
+  photoUser_id:{
     type: String,
     trim: true
   },
-  email:{
+  scaner_id:{
     type: String,
     trim: true
   },
-  password:{
+  camera_id:{
     type: String,
     trim: true
+  },
+  rollo_id:{
+    type: String,
+    trim: true
+  },
+  aproved: {
+    type: Boolean
   }
 })
 
 export default mongoose.model('Album', albumSchema)
 
-/*urlImages
+/*
+urlImages
 description
 photoUser_id
 scaner_id
 camera_id
 rollo_id
-aproved*/
+aproved
+*/
