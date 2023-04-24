@@ -10,8 +10,9 @@ export const getAllAlbumes = (req,res)=>{
 
 //Me crea un registro de album, y me devuelve el registro del album creado
 export const createAlbum = async(req,res)=>{
-    let dataText = req.body;
-    let dataFiles = req.files;
+    const dataText = req.body;
+    const dataFiles = req.files;
+    const myreq = req;
     let objRes = {
         msg: "Creando un nuevo album(publicacion) (funcionalidad en desarrollo)"
     };
@@ -21,7 +22,8 @@ export const createAlbum = async(req,res)=>{
             ...objRes,
             result,
             dataText,
-            dataFiles
+            dataFiles,
+            myreq
         }
         return res.status(200).json(objRes);
     } catch (error) {
