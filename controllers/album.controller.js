@@ -1,6 +1,6 @@
 // controladores de la Entidad album
 
-import { uploadFilesToBucket } from "../lib/album.lib";
+import { uploadFilesToBucket } from "../lib/album.lib.js";
 
 
 //Devuelve la lista de albumes de todos los usuarios
