@@ -12,7 +12,7 @@ export async function connectDB() {
         useNewUrlParser: true,
         useUnifiedTopology: true
       });
-      console.log("Connected to:", db.connection.db.namespace);
+      //console.log("Connected to:", db.connection.db.namespace);
       if(db.connection.db.namespace){
         console.log(`Conexion exitosa a DB: ${db.connection.db.namespace}`);
       }else{

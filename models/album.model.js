@@ -31,12 +31,3 @@ const albumSchema= new mongoose.Schema({
 
 export default mongoose.model('Album', albumSchema)
 
-/*
-urlImages
-description
-photoUser_id
-scaner_id
-camera_id
-rollo_id
-aproved
-*/

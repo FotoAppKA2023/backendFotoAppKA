@@ -1,5 +1,7 @@
 // controladores de la Entidad album
 
+import { uploadFilesToBucket } from "../lib/album.lib";
+
 
 //Devuelve la lista de albumes de todos los usuarios
 export const getAllAlbumes = (req,res)=>{
@@ -7,8 +9,29 @@ export const getAllAlbumes = (req,res)=>{
 }
 
 //Me crea un registro de album, y me devuelve el registro del album creado
-export const createAlbum = (req,res)=>{
-    return res.status(200).json("Me crea un registro de album, y me devuelve el registro del album creado")
+export const createAlbum = async(req,res)=>{
+    let dataText = req.body;
+    let dataFiles = req.files;
+    let objRes = {
+        msg: "Creando un nuevo album(publicacion) (funcionalidad en desarrollo)"
+    };
+    try {
+        const result = await uploadFilesToBucket();
+        objRes= {
+            ...objRes,
+            result,
+            dataText,
+            dataFiles
+        }
+        return res.status(200).json(objRes);
+    } catch (error) {
+        objRes= {
+            ...objRes,
+            error
+        }
+        return res.status(500).json(objRes);
+    }
+    
 }
 
 //Me devuelve la lista de albums del usuario
