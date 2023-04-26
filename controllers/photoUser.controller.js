@@ -1,5 +1,7 @@
 //Controladores de la Entidad photoUser
 
+import { createPhotoUserInDB } from "../lib/photoUser.lib.js";
+
 
 //(index) devuelve la lista de usuarios
 export const getIndex = (req,res)=>{
@@ -7,8 +9,27 @@ export const getIndex = (req,res)=>{
 }
 
 //Me crea un registro de usuario
-export const createPhotoUser = (req,res)=>{
-    return res.status(200).json("Creando usuario Fotografo..");
+export const createPhotoUser = async(req,res)=>{
+    const dataPhotoUser = {...req.body};
+    let objRes= {
+        msg: 'Creando usuario Fotografo..'
+    }
+    try {
+
+        const resultCreatePhotoUser = await createPhotoUserInDB(dataPhotoUser);
+        objRes = {
+            ...objRes,
+            resultCreatePhotoUser
+        }
+        return res.status(200).json(objRes);    
+    } catch (error) {
+        objRes = {
+            ...objRes,
+            error
+        }
+        return res.status(500).json(objRes);
+    }
+    
 }
 
 //Obtener un usuario por ID

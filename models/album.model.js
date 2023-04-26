@@ -4,6 +4,10 @@ const albumSchema= new mongoose.Schema({
   urlImages:{
     type: Array
   },
+  title:{
+    type: String,
+    trim: true
+  },
   description:{
     type: String,
     trim: true
