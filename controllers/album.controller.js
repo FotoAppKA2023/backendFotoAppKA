@@ -12,8 +12,8 @@ export const getAllAlbumes = (req, res) => {
 
 //Me crea un registro de album, y me devuelve el registro del album creado
 export const createAlbum = async (req, res) => {
-  const { title, description, photoUser_id } = req.body;
-
+  const { description, photoUser_id, camera_id, scaner_id, rollo_id } = req.body;
+  console.log(req.body);
   const dataFiles = req.files;
   //const myReqImages = req.images;
   //const myreq = req;
@@ -22,11 +22,14 @@ export const createAlbum = async (req, res) => {
     msg: "Creando un nuevo album(publicacion) (funcionalidad en desarrollo)",
   };
   try {
-    const responseCreateAlbumInDB = createAlbumInDB(
-      title,
+    const responseCreateAlbumInDB = await createAlbumInDB(
       description,
-      photoUser_id
+      photoUser_id,
+      camera_id,
+      scaner_id,
+      rollo_id
     );
+    console.log('responseCreateAlbumInDB:..',responseCreateAlbumInDB);
     if (responseCreateAlbumInDB) {
       const { resultCreateAlbumInDB } = responseCreateAlbumInDB;
       const album_id = resultCreateAlbumInDB._id;
@@ -39,9 +42,9 @@ export const createAlbum = async (req, res) => {
         return `https://${AWS_BUCKETNAME}.s3.amazonaws.com/${photoUser_id}/${album_id}/${item.name}`
       })
       const responseUpdateAlbumInDB = await updateAlbumInDB(urlImages, album_id); 
+      console.log(responseUpdateAlbumInDB);
       objRes = {
         ...objRes,
-        dataBody,
         dataFiles,
         resultUpload,
         responseUpdateAlbumInDB,
@@ -49,19 +52,21 @@ export const createAlbum = async (req, res) => {
         urlImages
       };
       console.log("objRes:..", objRes);
-      return res.status(200).json(objRes);
+      
     } else {
       objRes = {
         ...objRes,
         posibleError: "talvez no hay conexion con la DB:..",
       };
-      return res.status(204).json(objRes);
+      
     }
+    return res.status(200).json(objRes);
   } catch (error) {
     objRes = {
       ...objRes,
       error,
     };
+    console.log('Caso de error:',objRes);
     return res.status(500).json(objRes);
   }
 };

@@ -1,11 +1,33 @@
+import Camera from '../models/camaras.model.js';
+
+
 //Me devuelve todas los camaras
 export const getAllCamara = (req,res)=>{
     return res.status(200).json("Me devuelve todas los camaras")
 }
 
 //Me crea un nuevo camara en la base de datos
-export const createCamara = (req,res)=>{
-    return res.status(200).json("Me crea una nueva camara en la base de datos")
+export const createCamara = async(req,res)=>{
+    const dataCamera = {...req.body}
+    let objRes = {
+        msg: 'Creando camara..'
+    }
+    try {
+        const result = new Camera(dataCamera);
+        await result.save();
+        objRes ={
+            ...objRes,
+            result
+        }
+        return res.status(200).json(objRes);
+    } catch (error) {
+        objRes ={
+            ...objRes,
+            error
+        }
+        return res.status(500).json(objRes);
+    }
+    
 }
 
 //Me devuelve los datos de la camara en especifico
