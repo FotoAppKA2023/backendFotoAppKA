@@ -1,4 +1,8 @@
+import { uploadOneFileToBucket } from '../lib/rollos.lib.js';
+import { AWS_BUCKETNAME } from '../config.js';
 import Rollo from '../models/rollos.model.js';
+import fs from 'fs';
+import { __dirname } from '../app.js';
 
 //Me devuelve todos los rollos
 export const getAllRollos = async(req,res)=>{
@@ -24,17 +28,48 @@ export const getAllRollos = async(req,res)=>{
 
 //Me crea un nuevo rollo en la base de datos
 export const createRollo = async(req,res)=>{
-    const dataRollo = {...req.body};
+    const dataRollo = req.body;
+    const dataFile = req.files.imagenRollo;
     let objRes = {
-        msg: 'Creando rollo..'
+        msg: 'Creando rollo..',
+        dataRollo,
+        dataFile
     }
+    //console.log(objRes);
+    
     try {
-        const result = new Rollo(dataRollo);
-        await result.save();
+        const resultCreate = new Rollo(dataRollo);
+        await resultCreate.save();
+        if(resultCreate._id){
+            const responseUpload = await uploadOneFileToBucket(dataFile,resultCreate._id);
+            if(responseUpload){
+                dataRollo.imageUrl=`https://${AWS_BUCKETNAME}.s3.amazonaws.com/${resultCreate._id}/${dataFile.name}`;
+                const responseUpdate = await Rollo.findByIdAndUpdate({_id:resultCreate._id},{...dataRollo},{new:true});
+                if(responseUpdate){
+                    objRes ={
+                        ...objRes,
+                        responseUpdate,
+                        responseUpload
+                    }
+                    fs.unlink(`${__dirname}/${dataFile.tempFilePath}`, function(err) {
+                        if (err) {
+                           console.log(err);
+                        } else {
+                          console.log("Successfully deleted the file.")
+                        }
+                      })            
+                }
+            }
+
+        }
+        
+        
         objRes ={
             ...objRes,
-            result
+            resultCreate,
+            msgRes:'Proceso concluido con exito..'
         }
+        console.log(objRes);
         return res.status(200).json(objRes);
     } catch (error) {
         objRes ={
