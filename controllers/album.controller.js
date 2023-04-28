@@ -1,3 +1,6 @@
+import fs from 'fs';
+import { __dirname } from '../app.js';
+
 // controladores de la Entidad album
 
 import { uploadFilesToBucket, createAlbumInDB, updateAlbumInDB } from "../lib/album.lib.js";
@@ -43,6 +46,17 @@ export const createAlbum = async (req, res) => {
       })
       const responseUpdateAlbumInDB = await updateAlbumInDB(urlImages, album_id); 
       console.log(responseUpdateAlbumInDB);
+      if (resultUpload){
+        dataFiles.files.forEach(item=>{
+          fs.unlink(`${__dirname}/${item.tempFilePath}`, function(err) {
+            if (err) {
+               console.log(err);
+            } else {
+              console.log("Successfully deleted the file.")
+            }
+          })
+        })
+      }
       objRes = {
         ...objRes,
         dataFiles,
