@@ -1,5 +1,6 @@
 import fs from 'fs';
 import { __dirname } from '../app.js';
+import Album from '../models/album.model.js';
 
 // controladores de la Entidad album
 
@@ -7,10 +8,26 @@ import { uploadFilesToBucket, createAlbumInDB, updateAlbumInDB } from "../lib/al
 import { AWS_BUCKETNAME } from "../config.js";
 
 //Devuelve la lista de albumes de todos los usuarios
-export const getAllAlbumes = (req, res) => {
-  return res
-    .status(200)
-    .json("Devuelve la lista de albumes de todos los usuarios");
+export const getAllAlbumes = async(req, res) => {
+  let objRes = {
+    msg: 'Recuperando dataAllAlbums..'
+}
+try {
+    const result = await Album.find().limit(20);
+    
+    objRes ={
+        ...objRes,
+        result
+    }
+    return res.status(200).json(objRes);
+} catch (error) {
+    objRes ={
+        ...objRes,
+        error
+    }
+    return res.status(500).json(objRes);
+}
+  
 };
 
 //Me crea un registro de album, y me devuelve el registro del album creado
