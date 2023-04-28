@@ -13,7 +13,7 @@ export const getAllAlbumes = async(req, res) => {
     msg: 'Recuperando dataAllAlbums..'
 }
 try {
-    const result = await Album.find().limit(20);
+    const result = await Album.find().sort({$natural:-1}).limit(20);
     
     objRes ={
         ...objRes,
