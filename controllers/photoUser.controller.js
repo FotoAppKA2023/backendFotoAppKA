@@ -34,16 +34,23 @@ export const createPhotoUser = async(req,res)=>{
 
 //Obtener un usuario por ID
 export const getOnePhotoUser = async (req,res)=>{
-    const {id} = req.params;
+    
+    const dataParams = req.query;
+
     let objRes = {
-        msg: 'Recuperando DataPhotoUserByID..'
+        msg: 'Recuperando DataPhotoUserByID..',
+        dataParams
     }
+    //console.log(req.query);
+    //console.log(objRes);
+    //return res.status(200).json(objRes);
     try {
-        const result = await getOnePhotoUserInDB(id);
+        const result = await getOnePhotoUserInDB(dataParams.idPhotoUser);
         objRes={
             ...objRes,
             result
         }
+        console.log(objRes);
         return res.status(200).json(objRes);
     } catch (error) {
         objRes= {

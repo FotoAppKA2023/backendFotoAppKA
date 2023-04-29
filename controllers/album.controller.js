@@ -103,20 +103,75 @@ export const createAlbum = async (req, res) => {
 };
 
 //Me devuelve la lista de albums del usuario
-export const getMyAlbums = (req, res) => {
-  return res
-    .status(200)
-    .json("Recupera los Albumes de un Usuario Fotografo:..");
+export const getMyAlbums = async(req, res) => {
+  const {idPhotoUser} = req.query;
+  let objRes = {
+    msg: 'Recuperando dataMyAlbumsByPhotoUserID..'
+}
+try {
+    const result = await Album.find({photoUser_id:idPhotoUser});
+    
+    objRes ={
+        ...objRes,
+        result
+    }
+    return res.status(200).json(objRes);
+} catch (error) {
+    objRes ={
+        ...objRes,
+        error
+    }
+    return res.status(500).json(objRes);
+}
 };
 
 //Recupera el album especificado
-export const getOneAlbum = (req, res) => {
-  return res.status(200).json("Recupera un Album por id ..");
+export const getOneAlbum = async(req, res) => {
+  const {idAlbum} = req.query;
+  let objRes = {
+    msg: 'Recuperando dataAlbumsByID..'
+}
+try {
+    const result = await Album.findById({_id:idAlbum});
+    
+    objRes ={
+        ...objRes,
+        result
+    }
+    return res.status(200).json(objRes);
+} catch (error) {
+    objRes ={
+        ...objRes,
+        error
+    }
+    return res.status(500).json(objRes);
+}
 };
 
 //Actualiza un album
-export const updateAlbum = (req, res) => {
-  return res.status(200).json("Actualiza un Album por id ..");
+export const updateAlbum = async(req, res) => {
+  const {idAlbum} = req.body;
+  let objRes = {
+    msg: 'Recuperando dataAlbumsByID..',
+    idAlbum
+}
+console.log(objRes);
+return res.status(200).json(objRes);
+try {
+    const result = await Album.findById({_id:idAlbum});
+    
+    objRes ={
+        ...objRes,
+        result
+    }
+    return res.status(200).json(objRes);
+} catch (error) {
+    objRes ={
+        ...objRes,
+        error
+    }
+    return res.status(500).json(objRes);
+}
 };
 
 //Elimina un album

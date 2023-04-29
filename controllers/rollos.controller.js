@@ -28,23 +28,23 @@ export const getAllRollos = async(req,res)=>{
 
 //Me crea un nuevo rollo en la base de datos
 export const createRollo = async(req,res)=>{
-    const dataRollo = req.body;
-    const dataFile = req.files.imagenRollo;
+    const dataBody = req.body;
+    const dataFile = req.files.imagen;
     let objRes = {
         msg: 'Creando rollo..',
-        dataRollo,
+        dataBody,
         dataFile
     }
     //console.log(objRes);
     
     try {
-        const resultCreate = new Rollo(dataRollo);
+        const resultCreate = new Rollo(dataBody);
         await resultCreate.save();
         if(resultCreate._id){
             const responseUpload = await uploadOneFileToBucket(dataFile,resultCreate._id);
             if(responseUpload){
-                dataRollo.imageUrl=`https://${AWS_BUCKETNAME}.s3.amazonaws.com/${resultCreate._id}/${dataFile.name}`;
-                const responseUpdate = await Rollo.findByIdAndUpdate({_id:resultCreate._id},{...dataRollo},{new:true});
+                dataBody.imageUrl=`https://${AWS_BUCKETNAME}.s3.amazonaws.com/${resultCreate._id}/${dataFile.name}`;
+                const responseUpdate = await Rollo.findByIdAndUpdate({_id:resultCreate._id},{...dataBody},{new:true});
                 if(responseUpdate){
                     objRes ={
                         ...objRes,

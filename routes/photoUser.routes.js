@@ -6,6 +6,6 @@ import { createPhotoUser, getIndex, getOnePhotoUser,updatePhotoUser, deletePhoto
 export const photoUserRoutes= Router()
                         .get('/',getIndex)
                         .post('/',createPhotoUser)
-                        .get('/:id',getOnePhotoUser)
+                        .get('/getOnePhotoUser',getOnePhotoUser)
                         .put('/:id',updatePhotoUser)
                         .delete('/:id',deletePhotoUser)
