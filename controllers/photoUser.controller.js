@@ -1,10 +1,29 @@
 //Controladores de la Entidad photoUser
 
 import { createPhotoUserInDB, getOnePhotoUserInDB } from "../lib/photoUser.lib.js";
+import PhotoUser from "../models/photoUser.model.js";
 
 
 //(index) devuelve la lista de usuarios
-export const getIndex = (req,res)=>{
+export const getIndex = async(req,res)=>{
+    let objRes = {
+        msg: 'Recuperando dataAllPhotoUsers..'
+    }
+    try {
+        const result = await PhotoUser.find();
+        
+        objRes ={
+            ...objRes,
+            result
+        }
+        return res.status(200).json(objRes);
+    } catch (error) {
+        objRes ={
+            ...objRes,
+            error
+        }
+        return res.status(500).json(objRes);
+    }
     return res.status(200).json("Devuelve la lista de usuarios Fotografo..");
 }
 
