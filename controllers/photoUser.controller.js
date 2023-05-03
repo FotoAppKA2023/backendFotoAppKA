@@ -82,11 +82,53 @@ export const getOnePhotoUser = async (req,res)=>{
 }
 
 //Me actualiza un usuario existente por ID
-export const updatePhotoUser = (req,res)=>{
-    return res.status(200).json("Actualizando usuario fotografo..")
+export const updatePhotoUser = async(req,res)=>{
+    const dataBody = req.body;
+
+    let objRes = {
+        msg: 'Actualizando DataPhotoUserByID..',
+        dataBody
+    }
+    
+    try {
+        const result = await PhotoUser.findByIdAndUpdate({_id:dataBody._id},dataBody,{new:true});
+        objRes={
+            ...objRes,
+            result
+        }
+        console.log(objRes);
+        return res.status(200).json(objRes);
+    } catch (error) {
+        objRes= {
+            ...objRes,
+            error
+        }
+        return res.status(500).json(objRes);
+    }
 }
 
 //Me permite borrar un usuario por ID
-export const deletePhotoUser = (req,res)=>{
-    return res.status(200).json("Actualizando usuario fotografo..")
+export const deletePhotoUser = async(req,res)=>{
+    const dataBody = req.body;
+
+    let objRes = {
+        msg: 'Eliminando photoUserByID..',
+        dataBody
+    }
+    
+    try {
+        const result = await PhotoUser.findByIdAndUpdate({_id:dataBody._id});
+        objRes={
+            ...objRes,
+            result
+        }
+        console.log(objRes);
+        return res.status(200).json(objRes);
+    } catch (error) {
+        objRes= {
+            ...objRes,
+            error
+        }
+        return res.status(500).json(objRes);
+    }
 }

@@ -42,7 +42,7 @@ export const createScaner = async(req,res)=>{
     try {
         const resultCreate = new Scaner(dataBody);
         await resultCreate.save();
-        if(resultCreate._id){
+        if(resultCreate._id && dataFile){
             const responseUpload = await uploadOneFileToBucket(dataFile,resultCreate._id);
             if(responseUpload){
                 dataBody.imageUrl=`https://${AWS_BUCKETNAME}.s3.amazonaws.com/${resultCreate._id}/${dataFile.name}`;

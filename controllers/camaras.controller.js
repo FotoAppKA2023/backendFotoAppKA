@@ -42,7 +42,7 @@ export const createCamara = async(req,res)=>{
     try {
         const resultCreate = new Camera(dataBody);
         await resultCreate.save();
-        if(resultCreate._id){
+        if(resultCreate._id && dataFile){
             const responseUpload = await uploadOneFileToBucket(dataFile,resultCreate._id);
             if(responseUpload){
                 dataBody.imageUrl=`https://${AWS_BUCKETNAME}.s3.amazonaws.com/${resultCreate._id}/${dataFile.name}`;
@@ -85,10 +85,13 @@ export const createCamara = async(req,res)=>{
 
 //Me devuelve los datos de la camara en especifico
 export const getOneCamara = async(req,res)=>{
-    const {id} = req.params;
+    const dataBody = req.body;
     let objRes = {
-        msg: 'Recuperando dataOneCameraByID..'
+        msg: 'Recuperando dataOneCameraByID..',
+        dataBody
     }
+    console.log(objRes);
+    return res.status(200).json(objRes);
     try {
         const result = await Camera.findById({_id:id});
         

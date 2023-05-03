@@ -1,7 +1,12 @@
 import {Router} from "express";
-import { verificarAlbumes } from "../controllers/adminUser.controller.js";
+import { createAdminUser, deleteAdminUser, getAllAdminUser, getOneAdminUser, updateAdminUser, verificarAlbumes } from "../controllers/adminUser.controller.js";
 
 
 
 export const adminUserRoutes = Router()
-                                .get('/verificarAlbumes', verificarAlbumes);
+                                .get('/verificarAlbumes', verificarAlbumes)
+                                .get('/getAllAdminUser',getAllAdminUser)
+                                .get('/getOneAdminUser',getOneAdminUser)
+                                .post('/createAdminUser',createAdminUser)
+                                .put('/updateAdminUser',updateAdminUser)
+                                .delete('/deleteAdminUser',deleteAdminUser)

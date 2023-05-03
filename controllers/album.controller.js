@@ -150,15 +150,14 @@ try {
 
 //Actualiza un album
 export const updateAlbum = async(req, res) => {
-  const {idAlbum} = req.body;
+  const dataBody = req.body;
   let objRes = {
     msg: 'Recuperando dataAlbumsByID..',
-    idAlbum
+  
 }
-console.log(objRes);
-return res.status(200).json(objRes);
+
 try {
-    const result = await Album.findById({_id:idAlbum});
+    const result = await Album.findByIdAndUpdate({_id:dataBody._id},dataBody,{new:true});
     
     objRes ={
         ...objRes,
@@ -175,6 +174,23 @@ try {
 };
 
 //Elimina un album
-export const deleteAlbum = (req, res) => {
-  return res.status(200).json("Elimina un Album por id ..");
+export const deleteAlbum = async(req, res) => {
+  const {idAlbum} = req.query;
+  let objRes = {
+    msg: 'Recuperando dataAlbumsByID..',
+  }
+try {
+    const result = await Album.findByIdAndDelete({_id:idAlbum});   
+    objRes ={
+        ...objRes,
+        result
+    }
+    return res.status(200).json(objRes);
+} catch (error) {
+    objRes ={
+        ...objRes,
+        error
+    }
+    return res.status(500).json(objRes);
+}
 };
