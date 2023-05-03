@@ -40,7 +40,10 @@ export const createAlbum = async (req, res) => {
   //64488bcc2c6d1d8daf5a2002 idPhotoUserPruebas
   let objRes = {
     msg: "Creando un nuevo album(publicacion) (funcionalidad en desarrollo)",
+    dataFiles,
+    dataBody: req.body
   };
+  return res.status(200).json(objRes);
   try {
     const responseCreateAlbumInDB = await createAlbumInDB(
       description,
