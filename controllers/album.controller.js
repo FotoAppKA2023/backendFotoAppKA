@@ -43,7 +43,7 @@ export const createAlbum = async (req, res) => {
     dataFiles,
     dataBody: req.body
   };
-  return res.status(200).json(objRes);
+  //return res.status(200).json(objRes);
   try {
     const responseCreateAlbumInDB = await createAlbumInDB(
       description,
