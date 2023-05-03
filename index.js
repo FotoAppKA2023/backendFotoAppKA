@@ -1,7 +1,7 @@
 import { app } from "./app.js";
 import { PORT } from "./config.js";
 import { connectDB } from "./db/db.js";
-import { myS3PutObject, putCorsPolicy } from "./oldFiles/exampleCodeS3.js";
+
 
 
 connectDB();
