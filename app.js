@@ -20,7 +20,10 @@ app.use(express.json())
 app.use(fileUpload({
     useTempFiles: true,
     tempFileDir: './upload',
-    
+    limits: {
+      fileSize: 2000000 //1mb
+  },
+  abortOnLimit: false
   }))
 
 //app.use(upload.array());
