@@ -1,6 +1,6 @@
 //Controladores de la Entidad photoUser
 
-import { createPhotoUserInDB, getOnePhotoUserInDB } from "../lib/photoUser.lib.js";
+import { confirmLoginPhotoUser, createPhotoUserInDB, getOnePhotoUserInDB, registerNewPhotoUser } from "../lib/photoUser.lib.js";
 import PhotoUser from "../models/photoUser.model.js";
 
 
@@ -126,6 +126,35 @@ export const deletePhotoUser = async(req,res)=>{
         return res.status(200).json(objRes);
     } catch (error) {
         objRes= {
+            ...objRes,
+            error
+        }
+        return res.status(500).json(objRes);
+    }
+}
+
+export const loginPhotoUser = async(req,res)=>{
+    const dataBody = req.body;
+    const {isRegister} = dataBody;
+    let objRes= {
+        msg:'Feature loginPhotoUser:..',
+        dataBody
+    }
+    //return res.status(200).json(objRes);
+    try {
+        let result= null;
+        if(isRegister){
+            result = await registerNewPhotoUser(dataBody);
+        }else{
+            result = await confirmLoginPhotoUser(dataBody);
+        }
+        objRes={
+            ...objRes,
+            result
+        }
+        return res.status(200).json(objRes);
+    } catch (error) {
+        objRes = {
             ...objRes,
             error
         }
