@@ -123,3 +123,36 @@ export const deleteAdminUser = async(req,res)=>{
     }
 
 }
+
+export const loginAdminUser = async(req,res)=>{
+    const dataBody= req.body;
+    let objRes = {
+        msg: 'service loginAdminUser:..',
+        isConfirmLogin: false,
+        dataBody
+    }
+    //return res.status(200).json(objRes);
+    try {
+        const findDataUserByEmail = await Admin.findOne({email:dataBody.email});
+        if (findDataUserByEmail){
+            const confirmPassword = findDataUserByEmail.password;
+            if (confirmPassword===dataBody.password){
+                
+                objRes={
+                    ...objRes,
+                    isConfirmLogin: true,
+                    dataUser: findDataUserByEmail
+                }
+            } 
+        }
+        console.log(objRes);
+        return res.status(200).json(objRes);
+    } catch (error) {
+        objRes={
+            ...objRes,
+            error
+        }
+        console.log(objRes);
+        return res.status(500).json(objRes);
+    }
+}

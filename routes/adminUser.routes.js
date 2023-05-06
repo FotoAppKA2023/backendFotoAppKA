@@ -1,5 +1,5 @@
 import {Router} from "express";
-import { createAdminUser, deleteAdminUser, getAllAdminUser, getOneAdminUser, updateAdminUser, verificarAlbumes } from "../controllers/adminUser.controller.js";
+import { createAdminUser, deleteAdminUser, getAllAdminUser, getOneAdminUser, loginAdminUser, updateAdminUser, verificarAlbumes } from "../controllers/adminUser.controller.js";
 
 
 
@@ -10,3 +10,4 @@ export const adminUserRoutes = Router()
                                 .post('/createAdminUser',createAdminUser)
                                 .put('/updateAdminUser',updateAdminUser)
                                 .delete('/deleteAdminUser',deleteAdminUser)
+                                .post('/loginAdminUser',loginAdminUser);
