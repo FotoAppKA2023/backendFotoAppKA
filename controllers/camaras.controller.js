@@ -31,7 +31,7 @@ export const getAllCamara = async(req,res)=>{
 //Me crea un nuevo camara en la base de datos
 export const createCamara = async(req,res)=>{
     const dataBody = req.body;
-    const dataFile = req.files.imagen;
+    const dataFile = req.files?.imagen||'';
     let objRes = {
         msg: 'Creando Camara..',
         dataBody,

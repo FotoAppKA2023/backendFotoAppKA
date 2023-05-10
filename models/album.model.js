@@ -13,20 +13,20 @@ const albumSchema= new mongoose.Schema({
     trim: true
   },
   photoUser_id:{
-    type: String,
-    trim: true
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'PhotoUser'
   },
   scaner_id:{
-    type: String,
-    trim: true
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Scaner'
   },
   camera_id:{
-    type: String,
-    trim: true
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Camara'
   },
   rollo_id:{
-    type: String,
-    trim: true
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Rollo'
   },
   aproved: {
     type: Boolean

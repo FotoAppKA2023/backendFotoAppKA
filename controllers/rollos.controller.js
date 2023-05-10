@@ -29,7 +29,7 @@ export const getAllRollos = async(req,res)=>{
 //Me crea un nuevo rollo en la base de datos
 export const createRollo = async(req,res)=>{
     const dataBody = req.body;
-    const dataFile = req.files.imagen;
+    const dataFile = req.files?.imagen||'';
     let objRes = {
         msg: 'Creando rollo..',
         dataBody,

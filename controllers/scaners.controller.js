@@ -31,7 +31,7 @@ export const getAllScaner = async(req,res)=>{
 //Me crea un nuevo scaner en la base de datos
 export const createScaner = async(req,res)=>{
     const dataBody = req.body;
-    const dataFile = req.files.imagen;
+    const dataFile = req.files?.imagen||'';
     let objRes = {
         msg: 'Creando Scaner..',
         dataBody,

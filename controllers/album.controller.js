@@ -1,11 +1,17 @@
 import fs from 'fs';
 import { __dirname } from '../app.js';
 import Album from '../models/album.model.js';
+import PhotoUser from '../models/photoUser.model.js';
 
 // controladores de la Entidad album
 
 import { uploadFilesToBucket, createAlbumInDB, updateAlbumInDB } from "../lib/album.lib.js";
 import { AWS_BUCKETNAME } from "../config.js";
+import mongoose from "mongoose";
+
+const { ObjectId } = mongoose.Types;
+
+
 
 //Devuelve la lista de albumes de todos los usuarios
 export const getAllAlbumes = async(req, res) => {
@@ -13,18 +19,32 @@ export const getAllAlbumes = async(req, res) => {
     msg: 'Recuperando dataAllAlbums..'
 }
 try {
-    const result = await Album.find().sort({$natural:-1}).limit(20);
-    
+    const preResult = await Album.find().sort({$natural:-1}).limit(20);
+    let result = [];
+    if(preResult){
+        for(let i=0;i<preResult.length;i++){
+          const idUser = preResult[i].photoUser_id ||'';
+          const dataUser = idUser ? await PhotoUser.findById({_id:idUser}) : {};
+          //const idUser= preResult[i].photoUser_id;
+          //const myUser= dataUser.find(item=>item._id==idUser);
+          result.push({
+            ...preResult[i]._doc,
+            dataUser
+          })
+        }
+    }
     objRes ={
         ...objRes,
-        result
+        result,
     }
+    console.log(objRes);
     return res.status(200).json(objRes);
 } catch (error) {
     objRes ={
         ...objRes,
         error
     }
+    console.log(objRes);
     return res.status(500).json(objRes);
 }
   
