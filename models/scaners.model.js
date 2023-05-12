@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const scanersSchema= new mongoose.Schema({
-  nombre:{
+  modelo:{
     type: String,
     trim: true
   },
@@ -9,20 +9,9 @@ const scanersSchema= new mongoose.Schema({
     type: String,
     trim: true
   },
-  formato:{
+  tipo:{
     type: String,
     trim: true
-  },
-  iso:{
-    type: String,
-    trim: true
-  },
-  grano:{
-    type: String,
-    trim: true
-  },
-  tomas:{
-    type: Number
   },
   description:{
     type: String,
