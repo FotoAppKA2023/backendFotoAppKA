@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const camaraSchema= new mongoose.Schema({
-  nombre:{
+  modelo:{
     type: String,
     trim: true
   },
@@ -13,16 +13,9 @@ const camaraSchema= new mongoose.Schema({
     type: String,
     trim: true
   },
-  iso:{
+  tipo:{
     type: String,
     trim: true
-  },
-  grano:{
-    type: String,
-    trim: true
-  },
-  tomas:{
-    type: Number
   },
   description:{
     type: String,
