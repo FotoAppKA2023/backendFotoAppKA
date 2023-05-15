@@ -2,6 +2,8 @@ import fs from 'fs';
 import { __dirname } from '../app.js';
 import Album from '../models/album.model.js';
 import PhotoUser from '../models/photoUser.model.js';
+import jwt from 'jsonwebtoken';
+import { JWT_SECRET } from '../config.js';
 
 // controladores de la Entidad album
 
@@ -14,10 +16,40 @@ const { ObjectId } = mongoose.Types;
 
 
 //Devuelve la lista de albumes de todos los usuarios
-export const getAllAlbumes = async(req, res) => {
+export const getAllAlbumes = async(req, res,next) => {
+  const token = req?.headers?.authorization;
+  let verifyToken=null;
+  let email=null;
+  let sessionOpen=null;
+  //const nowTime = new Date().getTime();
+  if(token){
+    try {
+      verifyToken = await jwt.verify(token,JWT_SECRET);
+      email= verifyToken.email;
+      console.log('verifyToken:',verifyToken);
+      //console.log('nowTime:',nowTime);  
+    } catch (error) {
+
+      //console.log('Error:',error);
+      //{msg:'Token has expired...'}
+      
+      return next(error);
+      
+      
+    }
+    
+  }
+  if(!email){
+    return res.status(401).json({msg:'Not authorized request...'})
+  }  
+
   let objRes = {
     msg: 'Recuperando dataAllAlbums..'
 }
+//console.log('token:',token);
+
+
+
 try {
     const preResult = await Album.find().sort({$natural:-1}).limit(20);
     let result = [];
@@ -29,7 +61,11 @@ try {
           //const myUser= dataUser.find(item=>item._id==idUser);
           result.push({
             ...preResult[i]._doc,
-            dataUser
+            dataUser:{
+              _id: dataUser._id,
+              nombre: dataUser.nombre,
+              email: dataUser.email
+            }
           })
         }
     }
@@ -37,7 +73,7 @@ try {
         ...objRes,
         result,
     }
-    console.log(objRes);
+    //console.log(objRes);
     return res.status(200).json(objRes);
 } catch (error) {
     objRes ={

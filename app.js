@@ -25,11 +25,23 @@ app.use(fileUpload({
   },
   abortOnLimit: false
   }))
+  
 
 //app.use(upload.array());
 
 
 //app.use("/api/", routes);
 routes();
+app.use((err, req, res, next) => {
+  console.log('Error Middleware:..',err);
+  res.status(403).json({error:'Token has expired...'})
+  
+  /*if (req.xhr) {
+     res.status(403).json({ error: 'Something failed!' })
+  } 
+  //console.error(err)
+   res.status(403).json({ error: 'Something failed!' })*/
+})
+
 
 
