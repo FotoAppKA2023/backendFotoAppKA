@@ -1,4 +1,6 @@
 import Admin from '../models/adminUser.model.js';
+import jwt from "jsonwebtoken";
+import { JWT_SECRET, EXPIRE_TOKEN } from "../config.js";
 
 //Me devuelve todos los Albumes pendientes de verificar
 
@@ -137,11 +139,19 @@ export const loginAdminUser = async(req,res)=>{
         if (findDataUserByEmail){
             const confirmPassword = findDataUserByEmail.password;
             if (confirmPassword===dataBody.password){
-                
+                const {_id,email,nombre} = findDataUserByEmail;
+                const payload = {
+                    _id,
+                    email,
+                    nombre
+                }
+                const expiry=EXPIRE_TOKEN;
+                const token= jwt.sign(payload,JWT_SECRET,{ expiresIn: expiry })
                 objRes={
                     ...objRes,
                     isConfirmLogin: true,
-                    dataUser: findDataUserByEmail
+                    dataUser: findDataUserByEmail,
+                    token
                 }
             } 
         }
